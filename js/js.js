@@ -11,6 +11,8 @@ function start() { // Inicio da função start()
 
     //Principais variáveis do jogo
     var jogo = {}
+    var velocidade=5;
+    var posicaoY = parseInt(Math.random() * 334);
     var TECLA = {//array
         W: 87,//esse é o keycode, o valor mapa das teclas
         S: 83,
@@ -39,6 +41,7 @@ function start() { // Inicio da função start()
 	
 	movefundo();
     movejogador();
+    moveinimigo1();
 	
 	} // Fim da função loop()
     //Função que movimenta o fundo do jogo
@@ -48,7 +51,7 @@ function start() { // Inicio da função start()
         esquerda = parseInt($("#fundoGame").css("background-position"));
         $("#fundoGame").css("background-position",esquerda-1);
         
-        } // fim da fun��o movefundo()
+        } // fim da função movefundo()
     function movejogador() {
 	
             if (jogo.pressionou[TECLA.W]) {
@@ -77,5 +80,18 @@ function start() { // Inicio da função start()
             }
         
     } // fim da função movejogador()
+    function moveinimigo1() {
+
+        posicaoX = parseInt($("#inimigo1").css("left"));
+        $("#inimigo1").css("left",posicaoX-velocidade);
+        $("#inimigo1").css("top",posicaoY);
+            
+            if (posicaoX<=0) {
+            posicaoY = parseInt(Math.random() * 334);
+            $("#inimigo1").css("left",694);
+            $("#inimigo1").css("top",posicaoY);
+                
+            }
+    } //Fim da função moveinimigo1()
 
 } // Fim da função start
