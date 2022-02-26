@@ -10,6 +10,7 @@ function start() { // Inicio da função start()
 	$("#fundoGame").append("<div id='amigo' class='anima3'></div>");
 
     //Principais variáveis do jogo
+    var podeAtirar=true;
     var jogo = {}
     var velocidade=5;
     var posicaoY = parseInt(Math.random() * 334);
@@ -44,6 +45,7 @@ function start() { // Inicio da função start()
     moveinimigo1();
     moveinimigo2();
     moveamigo();
+    colisao();
 	
 	} // Fim da função loop()
     //Função que movimenta o fundo do jogo
@@ -77,7 +79,7 @@ function start() { // Inicio da função start()
             }
             
             if (jogo.pressionou[TECLA.D]) {
-                
+                disparo();                
                 //Chama função Disparo	
             }
         
@@ -116,5 +118,47 @@ function start() { // Inicio da função start()
                         
             }   
     } // fim da função moveamigo()
+    function disparo() {
+	
+        if (podeAtirar==true) {
+            
+        podeAtirar=false;//altera p/ false, logo nao pode dar 2 tiros
+        
+        topo = parseInt($("#jogador").css("top"))//a posiçao do helicotero, de onde saira o disparo
+        posicaoX= parseInt($("#jogador").css("left"))
+        tiroX = posicaoX + 190;//para que o tiro saia do meio da nave
+        topoTiro=topo+42;//para que saia na altura frente da nave
+        $("#fundoGame").append("<div id='disparo'></div");//cria a div no html
+        $("#disparo").css("top",topoTiro);//caracteriscas dadas ao CSS dessa div
+        $("#disparo").css("left",tiroX);
+        
+        var tempoDisparo=window.setInterval(executaDisparo, 30);
+        //window.setInterval é a função de tempo (executa a função, nesse intervalo de segundos)
+        } //Fecha podeAtirar
+     
+            function executaDisparo() {
+            posicaoX = parseInt($("#disparo").css("left"));
+            $("#disparo").css("left",posicaoX+15); //se move de 15 em 15px
+    
+                    if (posicaoX>900) {//o fim de fundo game
+                            
+                window.clearInterval(tempoDisparo);
+                tempoDisparo=null;//zera tempoDisparo
+                $("#disparo").remove();//remove disparo da tela
+                podeAtirar=true;// pode atirar volta a ser true, e executavel
+                        
+                       }
+        } // Fecha executaDisparo()
+    } // Fecha disparo()
+    function colisao() {
+        var colisao1 = ($("#jogador").collision($("#inimigo1")));//a .collision pertence ao JQuery collision
+        //em outras palavras, as divs jogador e inimigo1 colidem
+        // jogador com o inimigo1
+        //quando acontecer, a avar colisao1 receberá uma serie de informaçoes
+        //só importa para o exercicio se houve colisao ou nao     
+    
+        console.log(colisao1);
+    
+    } //Fim da função colisao()
 
 } // Fim da função start
